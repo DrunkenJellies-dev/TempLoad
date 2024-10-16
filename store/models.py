@@ -14,7 +14,7 @@ class Customer(models.Model):
     lastName = models.CharField(max_length=50)
     phoneNumber = models.CharField(max_length=50)
     email = models.EmailField(max_length=100)
-    password = models.PasswordField(max_length=100)
+    password = models.CharField(max_length=50)
 
     def __str__(self) -> str:
         return f'{self.firstName} {self.lastName}'
