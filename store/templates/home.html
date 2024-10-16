@@ -112,7 +112,17 @@
                   <!-- Product name-->
                   <h5 class="fw-bolder">{{product.name}}</h5>
                   <!-- Product price-->
-                  £{{product.price}}
+
+                  {% if product.isSale%}
+                  <!-- Sale Price -->
+                  <span class="text-muted text-decoration-line-through"
+                    >£{{product.price}}</span
+                  >
+
+                  {{ product.salePrice}} {% else %}
+                  <!-- No Sale Price -->
+                  £{{product.price}} {% endif %}
+
                   <p class="text-truncate" style="max-width: 200px">
                     {{product.description}}
                   </p>
