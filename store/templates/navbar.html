@@ -1,7 +1,7 @@
 <!-- Navigation -->
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
   <div class="container px-4 px-lg-5">
-    <a class="navbar-brand" href="#!">TempLoad</a>
+    <a class="navbar-brand" href="{% url 'home' %}">TempLoad</a>
     <button
       class="navbar-toggler"
       type="button"
@@ -31,13 +31,23 @@
             role="button"
             data-bs-toggle="dropdown"
             aria-expanded="false"
-            >Shop</a
+            >Categories</a
           >
           <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <li><a class="dropdown-item" href="#!">All Products</a></li>
+            <li>
+              <a class="dropdown-item" href="{% url 'home' %}">All Products</a>
+            </li>
             <li><hr class="dropdown-divider" /></li>
-            <li><a class="dropdown-item" href="#!">Popular Items</a></li>
-            <li><a class="dropdown-item" href="#!">New Arrivals</a></li>
+            <li>
+              <a class="dropdown-item" href="{% url 'category' 'Notion' %}"
+                >Notion Templates</a
+              >
+            </li>
+            <li>
+              <a class="dropdown-item" href="{% url 'category' 'Excel' %}"
+                >Excel Templates</a
+              >
+            </li>
           </ul>
         </li>
 
@@ -54,7 +64,7 @@
         <li class="nav-item">
           <a class="nav-link" href="{% url 'register' %}">Register</a>
         </li>
-        
+
         {% endif %}
       </ul>
       <form class="d-flex">
