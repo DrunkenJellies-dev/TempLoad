@@ -1,6 +1,4 @@
-{% extends 'base.html'%} 
-
-{% block content %}
+{% extends 'base.html'%} {% block content %}
 
 <!-- Header-->
 <header class="bg-dark py-5">
@@ -63,8 +61,10 @@
           <!-- Product actions-->
           <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
             <div class="text-center">
-              <a class="btn btn-outline-dark mt-auto" href="#"
-                >View Options <i class="fa-solid fa-file-import"></i
+              <a
+                class="btn btn-outline-dark mt-auto"
+                href="{% url 'product' product.id%}"
+                >View Product <i class="fa-solid fa-file-import"></i
               ></a>
             </div>
           </div>
