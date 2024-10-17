@@ -51,5 +51,5 @@ def registerUser(request):
         else:
             messages.success(request, ("There was a problem registering your account. Please try again."))
             return redirect('register')
-
-    return render(request, 'register.html', {})
+    else:
+        return render(request, 'register.html', {'form':form})
