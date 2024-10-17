@@ -11,8 +11,8 @@
 </header>
 
 <br />
+{% if cartProducts %} {% for product in cartProducts %}
 <div class="container">
-  {% if cartProducts %} {% for product in cartProducts %}
   <br />
   <div class="card mb-3">
     <div class="row g-0">
@@ -51,5 +51,5 @@
     </div>
   </div>
 </div>
-{% endfor %} {% else %} There's Nothing in your cart... 
-{% endif %} {% endblock%}
+{% endfor %} {% else %} There's Nothing in your cart... {% endif %} 
+{%endblock%}
