@@ -11,6 +11,44 @@
 </header>
 
 <br />
-<div class="container">{{ cartProducts }}</div>
+<div class="container">
+  {% for product in cartProducts %}
+  <br />
+  <div class="card mb-3">
+    <div class="row g-0">
+      <div class="col-md-4">
+        <img
+          src="{{product.image.url}}"
+          class="img-fluid rounded-start"
+          alt="Product Image"
+        />
+        {% if product.isSale%}
+        <div
+          class="badge bg-dark text-white position-absolute"
+          style="top: 0.5rem; left: 0.5rem"
+        >
+          Sale
+        </div>
+        {% endif %}
+      </div>
+      <div class="col-md-8">
+        <div class="card-body">
+          <h5 class="card-title">{{product.name}}</h5>
+          <p class="card-text">{{product.description}}</p>
+          <p class="card-text">
+            {% if product.isSale%}
+            <!-- Sale Price -->
+            <span class="text-muted text-decoration-line-through"
+              >£{{product.price}}</span
+            >
 
-{% endblock %}
+            {{ product.salePrice}} {% else %}
+            <!-- No Sale Price -->
+            £{{product.price}} {% endif %}
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endfor %} {% endblock %}
