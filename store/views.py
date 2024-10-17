@@ -5,6 +5,7 @@ from django.contrib import messages
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 from django import forms
+from .forms import SignUpForm
 
 def home(request):
     products = Product.objects.all()
@@ -35,4 +36,20 @@ def logoutUser(request):
     return redirect('home')
 
 def registerUser(request):
+    form = SignUpForm()
+    if request.method == "POST":
+        form = SignUpForm(request.POST)
+        if form.is_valid():
+            form.save()
+            username = form.cleaned_data['username']
+            password = form.cleaned_data['password1']
+            # Login User
+            user=authenticate(username=username, password=password)
+            login(request, user)
+            messages.success(request, ("You have registered successfully and are now logged in."))
+            return redirect('home')
+        else:
+            messages.success(request, ("There was a problem registering your account. Please try again."))
+            return redirect('register')
+
     return render(request, 'register.html', {})
