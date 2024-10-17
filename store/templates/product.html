@@ -70,6 +70,7 @@
 
       success: function (json) {
         console.log(json);
+        document.getElementById("cartQuantity").textContent = json.qty;
       },
       error: function (xhr, errmsg, err) {},
     });
