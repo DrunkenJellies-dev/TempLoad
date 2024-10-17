@@ -36,7 +36,7 @@ class Cart():
         productIds = self.cart.keys()
 
         # Use ids to look up products in the database model
-        products = Product.objects.filter(id_in=productIds)
+        products = Product.objects.filter(id__in=productIds)
 
         # Return Products
         return products
