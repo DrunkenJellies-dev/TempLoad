@@ -11,3 +11,17 @@ class Cart():
 
         # Make sure the cart is available on all pages of the site
         self.cart = cart
+
+    def add(self, product):
+        productId = str(product.id)
+
+        # Check if the product is in the cart
+        if productId in self.cart:
+            # TODO: increase the quantity of the item in the cart
+            pass
+        else:
+            # Add the product to the cart
+            self.cart[productId] = {'price': str(product.price)}
+
+        # Modify the session
+        self.session.modified = True
