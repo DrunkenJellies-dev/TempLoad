@@ -12,7 +12,7 @@
 
 <br />
 <div class="container">
-  {% for product in cartProducts %}
+  {% if cartProducts %} {% for product in cartProducts %}
   <br />
   <div class="card mb-3">
     <div class="row g-0">
@@ -51,4 +51,4 @@
     </div>
   </div>
 </div>
-{% endfor %} {% endblock %}
+{% endfor %} {% endif %} There's Nothing in your cart... {% endblock %}
