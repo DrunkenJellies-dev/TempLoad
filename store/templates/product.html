@@ -39,11 +39,41 @@
               >< Back to Home</a
             >
             |
-            <a href="#" class="btn btn-secondary">Add to Cart</a>
+            <button
+              type="button"
+              value="{{product.id}}"
+              id="addCart"
+              href="#"
+              class="btn btn-secondary"
+            >
+              Add to Cart
+            </button>
           </div>
         </div>
       </div>
     </div>
   </div>
 </div>
+
+<script>
+  // Check if add to cart button pressed
+  $(document).on("click", "#addCart", function (e) {
+    e.preventDefault();
+    $.ajax({
+      type: "POST",
+      url: "{% url 'cartAdd' %}",
+      data: {
+        productId: $("#addCart").val(),
+        csrfmiddlewaretoken: "{{ csrf_token }}",
+        action: "post",
+      },
+
+      success: function (json) {
+        console.log(json);
+      },
+      error: function (xhr, errmsg, err) {},
+    });
+  });
+</script>
+
 {% endblock %}
