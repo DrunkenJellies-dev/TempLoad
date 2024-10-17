@@ -25,9 +25,12 @@ def loginUser(request):
             messages.success(request, ("There was an error, please try again."))
             return redirect('login')
     else:
-        return render(request, 'login.html')
+        return render(request, 'login.html', {})
 
 def logoutUser(request):
     logout(request)
     messages.success(request, ("You've been logged out."))
     return redirect('home')
+
+def registerUser(request):
+    return render(request, 'register.html', {})
