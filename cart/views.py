@@ -4,7 +4,11 @@ from store.models import Product
 from django.http import JsonResponse
 
 def cartSummary(request):
-    return render(request, 'cartSummary.html', {})
+    # Get the cart
+    cart = Cart(request)
+    # Get the products from the cart
+    cartProducts = cart.getProducts
+    return render(request, 'cartSummary.html', {"cartProducts":cartProducts})
 
 def cartAdd(request):
     # Get the Cart
