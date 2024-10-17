@@ -1,56 +1,49 @@
 {% extends 'base.html' %} {% block content %}
 
 <div class="container">
-  <div class="row">
-    <center>
-      <div class="col-8">
-        <p align="justify">
-          <br />
-          Lorem ipsum, dolor sit amet consectetur adipisicing elit. Laborum
-          dolores eligendi blanditiis reprehenderit modi sit voluptate! Tempore,
-          nihil. Rem omnis ducimus dignissimos. Quis maiores perspiciatis eum,
-          magni vitae ex quisquam. Lorem ipsum dolor, sit amet consectetur
-          adipisicing elit. Repellendus saepe, itaque eaque repellat sunt
-          possimus culpa dolorum est asperiores, deleniti quaerat pariatur.
-          Facilis ea laborum cum placeat nobis nisi error? Lorem ipsum dolor,
-          sit amet consectetur adipisicing elit. Quos reiciendis exercitationem
-          consequuntur quo doloribus, est voluptatibus voluptatem fugit, eius
-          inventore earum. Ab harum corrupti saepe fuga? Cum laudantium
-          voluptate eius. Lorem ipsum dolor sit amet consectetur adipisicing
-          elit. Magni doloremque molestias minus ut omnis quaerat a mollitia
-          nostrum consequatur dicta blanditiis assumenda, et numquam dolores
-          itaque quasi iure cupiditate aliquam.
-          <br />
-          <br />
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Nulla quos
-          aliquid dignissimos quibusdam temporibus, minima voluptas saepe sed
-          nobis modi odio dicta. Doloremque quaerat sed consequatur quia
-          necessitatibus modi non. Lorem ipsum dolor sit amet consectetur
-          adipisicing elit. Officiis nostrum enim fugit praesentium alias vitae
-          repellat odit? Error odit enim saepe hic repudiandae cumque, et animi
-          iure totam nulla! Veritatis? Lorem ipsum dolor, sit amet consectetur
-          adipisicing elit. Unde commodi voluptate eveniet repellendus
-          voluptates placeat quae quasi fuga nemo numquam provident, autem
-          cupiditate illo facilis debitis repellat hic magni voluptatum.
-          <br />
-          <br />
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Asperiores
-          necessitatibus molestias facere quidem, praesentium quasi? Possimus
-          aperiam eligendi tenetur ab odit rem excepturi facilis iste molestias
-          quas. Earum, culpa eligendi! Lorem ipsum dolor sit amet, consectetur
-          adipisicing elit. In, sequi quibusdam aperiam cumque cupiditate totam
-          maiores reiciendis, minima iure fuga deleniti harum eveniet nemo
-          corporis modi praesentium tempora debitis ab. Lorem ipsum dolor sit
-          amet consectetur adipisicing elit. Ipsam laborum dolorum suscipit
-          reprehenderit minus praesentium cupiditate dignissimos, blanditiis
-          error soluta minima iure perferendis, voluptate voluptatibus nihil hic
-          odio aperiam ad. Lorem ipsum dolor sit amet consectetur adipisicing
-          elit. Eum beatae sapiente explicabo libero cum quibusdam fugiat.
-          Veniam, voluptate nam? Quo numquam voluptatem ullam atque dolores
-          sequi. Similique sapiente possimus nobis!
-        </p>
+  <br />
+  <div class="card mb-3">
+    <div class="row g-0">
+      <div class="col-md-4">
+        <img
+          src="{{product.image.url}}"
+          class="img-fluid rounded-start"
+          alt="Product Image"
+        />
+        {% if product.isSale%}
+        <div
+          class="badge bg-dark text-white position-absolute"
+          style="top: 0.5rem; left: 0.5rem"
+        >
+          Sale
+        </div>
+        {% endif %}
       </div>
-    </center>
+      <div class="col-md-8">
+        <div class="card-body">
+          <h5 class="card-title">{{product.name}}</h5>
+          <p class="card-text">{{product.description}}</p>
+          <p class="card-text">
+            {% if product.isSale%}
+            <!-- Sale Price -->
+            <span class="text-muted text-decoration-line-through"
+              >£{{product.price}}</span
+            >
+
+            {{ product.salePrice}} {% else %}
+            <!-- No Sale Price -->
+            £{{product.price}} {% endif %}
+          </p>
+          <div class="container">
+            <a href="{% url 'home'%}" class="btn btn-secondary"
+              >< Back to Home</a
+            >
+            |
+            <a href="#" class="btn btn-secondary">Add to Cart</a>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 {% endblock %}
