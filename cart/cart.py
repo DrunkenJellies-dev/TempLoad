@@ -30,6 +30,33 @@ class Cart():
         # Modify the session
         self.session.modified = True
 
+    def cartTotal(self):
+        # Get product ids currently in the cart
+        productIds = self.cart.keys()
+
+        # Find keys in products database model
+        products = Product.objects.filter(id__in=productIds)
+
+        # Get Quantities
+        quantities = self.cart
+
+        # Initializing total starting at 0
+        total=0
+        # Loop through items in the cart and get the key and value
+        for key, value in quantities.items():
+            # Convert key string to int
+            key = int(key)
+            # Loop through all products
+            for product in products:
+                # Check if the product in cart matches a product in database
+                if product.id == key:
+                    # Add the price to the total times the price
+                    total = total + (product.price * value)
+
+        return total
+
+
+
     def __len__(self):
         return len(self.cart)
     
