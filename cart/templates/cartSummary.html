@@ -65,6 +65,9 @@
                 <button type="button"
                         data-index="{{ product.id }}"
                         class="btn btn-secondary updateCart">Update</button>
+                <button type="button"
+                        data-index="{{ product.id }}"
+                        class="btn btn-danger deleteProduct">Remove</button>
               </div>
             </div>
           </div>
@@ -77,7 +80,7 @@
 {% endblock %}
 <script>
 
-  // Check if add to cart button pressed
+  // Check if update product button pressed
   $(document).on("click", ".updateCart", function (e) {
     e.preventDefault();
     var productId = $(this).data('index');
@@ -87,6 +90,28 @@
       data: {
         productId: productId,
         productQty: $('select' + productId + 'option:selected').text(),
+        csrfmiddlewaretoken: "{{ csrf_token }}",
+        action: "post",
+      },
+
+      success: function (json) {
+        //console.log(json);
+        //document.getElementById("cartQuantity").textContent = json.qty;
+        location.reload();
+      },
+      error: function (xhr, errmsg, err) {},
+    });
+  });
+
+  // Check if delete product button pressed
+  $(document).on("click", ".deleteProduct", function (e) {
+    e.preventDefault();
+    var productId = $(this).data('index');
+    $.ajax({
+      type: "POST",
+      url: "{% url 'cartDelete' %}",
+      data: {
+        productId: productId,
         csrfmiddlewaretoken: "{{ csrf_token }}",
         action: "post",
       },
