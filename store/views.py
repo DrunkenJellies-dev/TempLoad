@@ -7,6 +7,9 @@ from django.contrib.auth.forms import UserCreationForm
 from django import forms
 from .forms import SignUpForm
 
+def categorySummary(request):
+    return render(request, 'categorySummary.html', {})
+
 def category(request, foo):
     # Replace Hyphens With Spaces
     foo = foo.replace('-', ' ')
