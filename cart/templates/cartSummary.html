@@ -77,52 +77,51 @@
   {% else %}
     There's Nothing in your cart...
   {% endif %}
+  <script>
+    // Check if update product button pressed
+    $(document).on("click", ".updateCart", function (e) {
+      e.preventDefault();
+      var productId = $(this).data('index');
+      $.ajax({
+        type: "POST",
+        url: "{% url 'cartUpdate' %}",
+        data: {
+          productId: $(this).data('index'),
+          productQty: $('#select' + productId + ' option:selected').text(),
+          csrfmiddlewaretoken: "{{ csrf_token }}",
+          action: "post",
+        },
+  
+        success: function (json) {
+          //console.log(json);
+          //document.getElementById("cartQuantity").textContent = json.qty;
+          location.reload();
+        },
+        error: function (xhr, errmsg, err) {},
+      });
+    });
+  
+    // Check if delete product button pressed
+    $(document).on("click", ".deleteProduct", function (e) {
+      e.preventDefault();
+      var productId = $(this).data('index');
+      $.ajax({
+        type: "POST",
+        url: "{% url 'cartDelete' %}",
+        data: {
+          productId: $(this).data('index'),
+          csrfmiddlewaretoken: "{{ csrf_token }}",
+          action: "post",
+        },
+  
+        success: function (json) {
+          //console.log(json);
+          //document.getElementById("cartQuantity").textContent = json.qty;
+          location.reload();
+        },
+        error: function (xhr, errmsg, err) {},
+      });
+    });
+  
+  </script>
 {% endblock %}
-<script>
-
-  // Check if update product button pressed
-  $(document).on("click", ".updateCart", function (e) {
-    e.preventDefault();
-    var productId = $(this).data('index');
-    $.ajax({
-      type: "POST",
-      url: "{% url 'cartUpdate' %}",
-      data: {
-        productId: productId,
-        productQty: $('select' + productId + 'option:selected').text(),
-        csrfmiddlewaretoken: "{{ csrf_token }}",
-        action: "post",
-      },
-
-      success: function (json) {
-        //console.log(json);
-        //document.getElementById("cartQuantity").textContent = json.qty;
-        location.reload();
-      },
-      error: function (xhr, errmsg, err) {},
-    });
-  });
-
-  // Check if delete product button pressed
-  $(document).on("click", ".deleteProduct", function (e) {
-    e.preventDefault();
-    var productId = $(this).data('index');
-    $.ajax({
-      type: "POST",
-      url: "{% url 'cartDelete' %}",
-      data: {
-        productId: productId,
-        csrfmiddlewaretoken: "{{ csrf_token }}",
-        action: "post",
-      },
-
-      success: function (json) {
-        //console.log(json);
-        //document.getElementById("cartQuantity").textContent = json.qty;
-        location.reload();
-      },
-      error: function (xhr, errmsg, err) {},
-    });
-  });
-
-</script>

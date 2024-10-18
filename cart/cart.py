@@ -64,3 +64,20 @@ class Cart():
 
         # Return the cart
         return self.cart
+    
+    def delete(self, product):
+        # Get inputs and store as variables {'4':3, '2':5} -> The data stored in the cart
+        productId = str(product)
+
+        # Get cart
+        cart = self.cart
+
+        #Delete the product from cart
+        if productId in self.cart:
+            del self.cart[productId]
+
+        # Setting session modified to True
+        self.session.modified = True
+
+        # Return the cart
+        return self.cart

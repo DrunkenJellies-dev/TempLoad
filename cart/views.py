@@ -2,6 +2,7 @@ from django.shortcuts import render, get_object_or_404
 from .cart import Cart
 from store.models import Product
 from django.http import JsonResponse
+import logging.config
 
 def cartSummary(request):
     # Get the cart
@@ -33,7 +34,20 @@ def cartAdd(request):
         return response
 
 def cartDelete(request):
-    pass
+     # Get the Cart
+    cart = Cart(request)
+
+    # Test for POST
+    if request.POST.get('action') == 'post':
+        # Get inputs
+        productId = int(request.POST.get('productId'))
+
+        # Call Delete Function
+        cart.delete(product=productId)
+
+        # Return a Json Response
+        response = JsonResponse({'product':productId})
+        return response
 
 def cartUpdate(request):
     # Get the Cart
