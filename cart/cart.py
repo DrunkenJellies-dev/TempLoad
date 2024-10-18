@@ -14,8 +14,9 @@ class Cart():
         # Make sure the cart is available on all pages of the site
         self.cart = cart
 
-    def add(self, product):
+    def add(self, product, quantity):
         productId = str(product.id)
+        productQty = str(quantity)
 
         # Check if the product is in the cart
         if productId in self.cart:
@@ -23,7 +24,8 @@ class Cart():
             pass
         else:
             # Add the product to the cart
-            self.cart[productId] = {'price': str(product.price)}
+            #self.cart[productId] = {'price': str(product.price)}
+            self.cart[productId] = int(productQty)
 
         # Modify the session
         self.session.modified = True

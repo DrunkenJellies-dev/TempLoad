@@ -34,6 +34,21 @@
             <!-- No Sale Price -->
             £{{product.price}} {% endif %}
           </p>
+          <div class="row justify-content-center">
+            <div class="col-md-2">Quantity:</div>
+            <div class="col-md-2">
+              <select class="form-select form-select-sm" id="qtyCart" aria-label="Quantity Selector">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+                <option value="7">7</option>
+                <option value="8">8</option>
+              </select>
+            </div>
+          </div>
           <div class="container">
             <a href="{% url 'home'%}" class="btn btn-secondary"
               >< Back to Home</a
@@ -64,6 +79,7 @@
       url: "{% url 'cartAdd' %}",
       data: {
         productId: $("#addCart").val(),
+        productQty: $("#qtyCart option:selected").text(),
         csrfmiddlewaretoken: "{{ csrf_token }}",
         action: "post",
       },
