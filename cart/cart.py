@@ -47,3 +47,20 @@ class Cart():
         # Get quantities
         quantities = self.cart
         return quantities
+    
+    def update(self, product, quantity):
+        # Get inputs and store as variables {'4':3, '2':5} -> The data stored in the cart
+        productId = str(product)
+        productQty = int(quantity)
+
+        # Get cart
+        cart = self.cart
+
+        # Update cart
+        cart[productId] = productQty
+
+        # Setting session modified to True
+        self.session.modified = True
+
+        # Return the cart
+        return self.cart
