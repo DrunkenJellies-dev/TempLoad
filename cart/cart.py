@@ -42,3 +42,8 @@ class Cart():
 
         # Return Products
         return products
+    
+    def getQuantities(self):
+        # Get quantities
+        quantities = self.cart
+        return quantities
