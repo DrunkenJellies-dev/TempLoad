@@ -44,7 +44,7 @@
                   <div class="col-md-2">Quantity:</div>
                   <div class="col-md-2">
                     <select class="form-select form-select-sm"
-                            id="qtyCart"
+                            id="select{{ product.id }}"
                             aria-label="Quantity Selector">
                       <option selected>
                         {% for key, value in quantities.items %}
@@ -62,6 +62,9 @@
                     </select>
                   </div>
                 </div>
+                <button type="button"
+                        data-index="{{ product.id }}"
+                        class="btn btn-secondary updateCart">Update</button>
               </div>
             </div>
           </div>
@@ -72,3 +75,29 @@
     There's Nothing in your cart...
   {% endif %}
 {% endblock %}
+<script>
+
+  // Check if add to cart button pressed
+  $(document).on("click", ".updateCart", function (e) {
+    e.preventDefault();
+    var productId = $(this).data('index');
+    $.ajax({
+      type: "POST",
+      url: "{% url 'cartUpdate' %}",
+      data: {
+        productId: productId,
+        productQty: $('select' + productId + 'option:selected').text(),
+        csrfmiddlewaretoken: "{{ csrf_token }}",
+        action: "post",
+      },
+
+      success: function (json) {
+        //console.log(json);
+        //document.getElementById("cartQuantity").textContent = json.qty;
+        location.reload();
+      },
+      error: function (xhr, errmsg, err) {},
+    });
+  });
+
+</script>
