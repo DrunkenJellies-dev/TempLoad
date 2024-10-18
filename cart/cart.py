@@ -50,8 +50,13 @@ class Cart():
             for product in products:
                 # Check if the product in cart matches a product in database
                 if product.id == key:
-                    # Add the price to the total times the price
-                    total = total + (product.price * value)
+                    # Check if the product is on sale
+                    if product.isSale:
+                        # Add the price to the total times the price for items on sale
+                        total = total + (product.salePrice * value)
+                    else:
+                        # Add the price to the total times the price
+                        total = total + (product.price * value)
 
         return total
 
