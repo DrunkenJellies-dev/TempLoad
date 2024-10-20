@@ -5,11 +5,23 @@ from django.contrib import messages
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 from django import forms
-from .forms import SignUpForm
+from .forms import SignUpForm, UpdateUserForm
 
 def updateUser(request):
-    return render(request, 'updateUser.html', {})
+    if request.user.is_authenticated:
+        currentUser = User.objects.get(id=request.user.id)
+        userForm = UpdateUserForm(request.POST or None, instance=currentUser)
 
+        if userForm.is_valid():
+            userForm.save()
+
+            login(request, currentUser)
+            messages.success(request, (currentUser.email + " has been updated."))
+            return redirect('home')
+        return render(request, 'updateUser.html', {'userForm':userForm})
+    else:
+        messages.success(request, ("You bust be logged in to access that page."))
+        return redirect('home')
 
 def categorySummary(request):
     categories = Category.objects.all()
