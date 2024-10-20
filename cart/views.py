@@ -2,7 +2,7 @@ from django.shortcuts import render, get_object_or_404
 from .cart import Cart
 from store.models import Product
 from django.http import JsonResponse
-import logging.config
+from django.contrib import messages
 
 def cartSummary(request):
     # Get the cart
@@ -29,6 +29,9 @@ def cartAdd(request):
         # Get cart quantity
         cartQuantity = cart.__len__()
 
+        # Display a message pop-up
+        messages.success(request, (product.name + " has been added to the cart with the quantity of " + str(productQty) + "."))
+
         # Return a response
         #response = JsonResponse({'Product Name: ': product.name})
         response = JsonResponse({'qty: ': cartQuantity})
@@ -43,8 +46,14 @@ def cartDelete(request):
         # Get inputs
         productId = int(request.POST.get('productId'))
 
+        # Look up the product in the data base
+        product = get_object_or_404(Product, id=productId)
+
         # Call Delete Function
         cart.delete(product=productId)
+
+        # Display a message pop-up
+        messages.success(request, (product.name + " has removed from the cart."))
 
         # Return a Json Response
         response = JsonResponse({'product':productId})
@@ -60,8 +69,14 @@ def cartUpdate(request):
         productId = int(request.POST.get('productId'))
         productQty = int(request.POST.get('productQty'))
 
+        # Look up the product in the data base
+        product = get_object_or_404(Product, id=productId)
+
         # Update the cart
         cart.update(product=productId, quantity=productQty)
+
+        # Display a message pop-up
+        messages.success(request, (product.name + " has been updated in the cart with the quantity of " + str(productQty) + "."))
 
         # Return a Json Response
         response = JsonResponse({'qty':productQty})
