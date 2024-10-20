@@ -54,6 +54,9 @@
         <!-- Login, Logout, Register Links -->
         {% if user.is_authenticated %}
         <li class="nav-item">
+          <a class="nav-link" href="{% url 'updateUser' %}">Update Profile</a>
+        </li>
+        <li class="nav-item">
           <a class="nav-link" href="{% url 'logout' %}">Logout</a>
         </li>
         {% else %}

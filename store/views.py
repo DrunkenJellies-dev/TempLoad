@@ -7,6 +7,10 @@ from django.contrib.auth.forms import UserCreationForm
 from django import forms
 from .forms import SignUpForm
 
+def updateUser(request):
+    return render(request, 'updateUser.html', {})
+
+
 def categorySummary(request):
     categories = Category.objects.all()
     return render(request, 'categorySummary.html', {"categories":categories})
