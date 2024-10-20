@@ -5,11 +5,29 @@ from django.contrib import messages
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 from django import forms
-from .forms import SignUpForm, UpdateUserForm
+from .forms import SignUpForm, UpdateUserForm, UpdatePasswordForm
 
 def updatePassword(request):
-    return render(request, 'updatePassword.html', {})
-
+    if request.user.is_authenticated:
+        currentUser = User.objects.get(id=request.user.id)
+        # Is the form filled out 
+        if request.method == 'POST':
+            form = UpdatePasswordForm(currentUser, request.POST)
+            # Is the form Valid
+            if form.is_valid():
+                form.save()
+                messages.success(request, ("Your password has been updated. Please login again."))
+                return redirect('login')
+            else:
+                for error in list(form.errors.values()):
+                    messages.error(request, error)
+                return redirect('updatePassword')
+        else:
+            form = UpdatePasswordForm(currentUser)
+            return render(request, 'updatePassword.html', {'form':form})
+    else:
+        messages.success(request, ("You must be logged in to view the page."))
+        return redirect('home')
 
 def updateUser(request):
     if request.user.is_authenticated:
