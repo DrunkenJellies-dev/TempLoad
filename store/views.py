@@ -47,11 +47,19 @@ def updateInfo(request):
         shippingForm = ShippingForm(request.POST or None, instance=shippingUser)
 
         # Check if the form is valid
-        if form.is_valid():
+        if form.is_valid() or shippingForm.is_valid():
+            # Save original form
             form.save()
+            # Save shipping form 
+            shippingForm.save()
 
+            #Send message 
             messages.success(request, (currentUser.email + " has been updated."))
+
+            #redirect to home
             return redirect('home')
+        
+        # Return the updateInfo.html page 
         return render(request, 'updateInfo.html', {'form':form, 'shippingForm':shippingForm})
     else:
         messages.success(request, ("You must be logged in to access that page."))
