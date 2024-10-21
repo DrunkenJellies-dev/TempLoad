@@ -1,8 +1,11 @@
-from store.models import Product
+from store.models import Product, Profile
 
 class Cart():
     def __init__(self, request):
         self.session = request.session
+
+        # Get Request
+        self.request = request
 
         # Get the current session key if it exists
         cart = self.session.get('session_key')
@@ -29,6 +32,19 @@ class Cart():
 
         # Modify the session
         self.session.modified = True
+
+        # Deal with logged in users
+        if self.request.user.is_authentication:
+            # Get the current user profile
+            currentUser = Profile.objects.filter(user__id=self.request.user.id)
+
+            # Convert to string
+            stringCart = str(self.cart)
+            stringCart = stringCart.replace("\'", "\"")
+
+            # Save stringCart to the profile Model
+            currentUser.update(oldCart=str(stringCart))
+            
 
     def cartTotal(self):
         # Get product ids currently in the cart
