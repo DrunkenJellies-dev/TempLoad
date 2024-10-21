@@ -7,6 +7,10 @@ from django.contrib.auth.forms import UserCreationForm
 from django import forms
 from .forms import SignUpForm, UpdateUserForm, UpdatePasswordForm, UserInfoForm
 
+def search(request):
+    return render(request, 'search.html', {})
+
+
 def updateInfo(request):
     if request.user.is_authenticated:
         currentUser = Profile.objects.get(id=request.user.id)
