@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from .models import Product, Category
+from .models import Product, Category, Profile
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.contrib.auth.models import User
@@ -8,7 +8,19 @@ from django import forms
 from .forms import SignUpForm, UpdateUserForm, UpdatePasswordForm, UserInfoForm
 
 def updateInfo(request):
-    pass
+    if request.user.is_authenticated:
+        currentUser = Profile.objects.get(id=request.user.id)
+        form = UserInfoForm(request.POST or None, instance=currentUser)
+
+        if form.is_valid():
+            form.save()
+
+            messages.success(request, (currentUser.email + " has been updated."))
+            return redirect('home')
+        return render(request, 'updateInfo.html', {'form':form})
+    else:
+        messages.success(request, ("You must be logged in to access that page."))
+        return redirect('home')
 
 def updatePassword(request):
     if request.user.is_authenticated:
@@ -45,7 +57,7 @@ def updateUser(request):
             return redirect('home')
         return render(request, 'updateUser.html', {'userForm':userForm})
     else:
-        messages.success(request, ("You bust be logged in to access that page."))
+        messages.success(request, ("You must be logged in to access that page."))
         return redirect('home')
 
 def categorySummary(request):
