@@ -25,7 +25,7 @@ class ShippingAddress(models.Model):
         return f'ShippingAddress - {str(self.id)}'
     
 # Order Model
-class Order(models.model):
+class Order(models.Model):
     # Foreign Key
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
 
@@ -39,3 +39,15 @@ class Order(models.model):
         return f'Order - {str(self.id)}'
     
   
+# Order Items Model
+class OrderItem(models.Model):
+    # Foreign Keys
+    order = models.ForeignKey(Order, on_delete=models.CASCADE, null=True)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, null=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
+
+    quantity = models.PositiveBigIntegerField(default=1)
+    price = models.DecimalField(max_digits=10, decimal_places=2)
+
+    def __str__(self) -> str:
+        return f'Order Item - {str(self.id)}'
