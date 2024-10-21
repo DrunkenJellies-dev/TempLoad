@@ -10,9 +10,18 @@ from .forms import SignUpForm, UpdateUserForm, UpdatePasswordForm, UserInfoForm
 def search(request):
     # Determine if they have filled out the form
     if request.method == "POST":
-        searched = request.POST['searched']
-        # Return the page with the searched variable
-        return render(request, 'search.html', {'searched':searched})
+        search = request.POST['searched']
+        # Query the product DB model (using icontains to ignore cases sensitivity)
+        searched = Product.objects.filter(name__icontains=search)
+
+        # Test for Null
+        if not searched:
+            messages.success(request, ("Sorry the product " + search + " doesn't exist, please ty again."))
+            return render(request, 'search.html', {})
+        
+        else:
+            # Return the page with the searched variable
+            return render(request, 'search.html', {'searched':searched})
 
     else:
         # Return the page

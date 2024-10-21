@@ -32,6 +32,17 @@
             </form>
           </div>
         </div>
+        
+        {% if searched %}
+            
+            {% for product in searched %}
+                You Searched for {{ searched }}
+            {% endfor %}
+        {% else %}
+                
+        {% endif %}
+
+            
       </div>
     </center>
   </div>
