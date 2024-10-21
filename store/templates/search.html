@@ -4,18 +4,34 @@
   <div class="container px-4 px-lg-5 my-5">
     <div class="text-center text-white">
       <h1 class="display-4 fw-bolder">Search Products</h1>
-      <p class="lead fw-normal text-white-50 mb-0">Search for what you're looking for</p>
+      <p class="lead fw-normal text-white-50 mb-0">
+        Search for what you're looking for
+      </p>
     </div>
   </div>
 </header>
 
 <div class="container">
   <div class="row">
-    <center>
-      <div class="col-8">
-        
+    <div class="col-10">
+      <div class="card">
+        <div class="card-header">Search products</div>
+        <div class="card-body">
+          <form method="POST" action="{% url 'search' %}">
+            {% csrf_token %}
+            <div class="mb-3">
+              <input
+                type="text"
+                class="form-control"
+                placeholder="Search for products"
+                name="Searched"
+              />
+            </div>
+            <button type="submit" class="btn btn-secondary">Search</button>
+          </form>
+        </div>
       </div>
-    </center>
+    </div>
   </div>
 </div>
 {% endblock %}
