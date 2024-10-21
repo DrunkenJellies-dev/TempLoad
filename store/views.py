@@ -9,6 +9,8 @@ from .forms import SignUpForm, UpdateUserForm, UpdatePasswordForm, UserInfoForm
 from django.db.models import Q
 import json
 from cart.cart import Cart
+from payment.forms import ShippingForm
+from payment.models import ShippingAddress
 
 def search(request):
     # Determine if they have filled out the form
@@ -33,15 +35,24 @@ def search(request):
 
 def updateInfo(request):
     if request.user.is_authenticated:
+        # Get current user
         currentUser = Profile.objects.get(id=request.user.id)
+        # Get current user shipping info
+        shippingUser = ShippingAddress.objects.get(id=request.user.id)
+
+        # Get original user form
         form = UserInfoForm(request.POST or None, instance=currentUser)
 
+        # Get user shipping form
+        shippingForm = ShippingForm(request.POST or None, instance=shippingUser)
+
+        # Check if the form is valid
         if form.is_valid():
             form.save()
 
             messages.success(request, (currentUser.email + " has been updated."))
             return redirect('home')
-        return render(request, 'updateInfo.html', {'form':form})
+        return render(request, 'updateInfo.html', {'form':form, 'shippingForm':shippingForm})
     else:
         messages.success(request, ("You must be logged in to access that page."))
         return redirect('home')
