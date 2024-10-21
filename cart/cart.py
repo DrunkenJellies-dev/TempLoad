@@ -17,6 +17,33 @@ class Cart():
         # Make sure the cart is available on all pages of the site
         self.cart = cart
 
+    def dbAdd(self, product, quantity):
+        productId = str(product)
+        productQty = str(quantity)
+
+        # Check if the product is in the cart
+        if productId in self.cart:
+            # TODO: increase the quantity of the item in the cart
+            pass
+        else:
+            # Add the product to the cart
+            self.cart[productId] = int(productQty)
+
+        # Modify the session
+        self.session.modified = True
+
+        # Deal with logged in users
+        if self.request.user.is_authentication:
+            # Get the current user profile
+            currentUser = Profile.objects.filter(user__id=self.request.user.id)
+
+            # Convert to string
+            stringCart = str(self.cart)
+            stringCart = stringCart.replace("\'", "\"")
+
+            # Save stringCart to the profile Model
+            currentUser.update(oldCart=str(stringCart))
+
     def add(self, product, quantity):
         productId = str(product.id)
         productQty = str(quantity)
@@ -27,7 +54,6 @@ class Cart():
             pass
         else:
             # Add the product to the cart
-            #self.cart[productId] = {'price': str(product.price)}
             self.cart[productId] = int(productQty)
 
         # Modify the session
