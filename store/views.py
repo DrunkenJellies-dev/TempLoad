@@ -8,7 +8,15 @@ from django import forms
 from .forms import SignUpForm, UpdateUserForm, UpdatePasswordForm, UserInfoForm
 
 def search(request):
-    return render(request, 'search.html', {})
+    # Determine if they have filled out the form
+    if request.method == "POST":
+        searched = request.POST['searched']
+        # Return the page with the searched variable
+        return render(request, 'search.html', {'searched':searched})
+
+    else:
+        # Return the page
+        return render(request, 'search.html', {})
 
 
 def updateInfo(request):
