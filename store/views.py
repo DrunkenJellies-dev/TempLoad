@@ -7,6 +7,9 @@ from django.contrib.auth.forms import UserCreationForm
 from django import forms
 from .forms import SignUpForm, UpdateUserForm, UpdatePasswordForm
 
+def updateInfo(request):
+    pass
+
 def updatePassword(request):
     if request.user.is_authenticated:
         currentUser = User.objects.get(id=request.user.id)
