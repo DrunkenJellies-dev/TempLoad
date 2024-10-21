@@ -153,5 +153,17 @@ class Cart():
         # Setting session modified to True
         self.session.modified = True
 
+        # Deal with logged in users
+        if self.request.user.is_authentication:
+            # Get the current user profile
+            currentUser = Profile.objects.filter(user__id=self.request.user.id)
+
+            # Convert to string
+            stringCart = str(self.cart)
+            stringCart = stringCart.replace("\'", "\"")
+
+            # Save stringCart to the profile Model
+            currentUser.update(oldCart=str(stringCart))
+
         # Return the cart
         return self.cart
