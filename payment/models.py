@@ -31,7 +31,7 @@ def createShipping(sender, instance, created, **kwargs):
         userShipping = ShippingAddress(user=instance)
         userShipping.save()
 
-# Automate the profile creation
+# Automate the shipping creation
 post_save.connect(createShipping, sender=User)
     
 # Order Model

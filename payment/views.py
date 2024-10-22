@@ -3,6 +3,22 @@ from cart.cart import Cart
 from payment.forms import ShippingForm
 from payment.models import ShippingAddress
 
+def billingInfo(request):
+     # Get the cart
+    cart = Cart(request)
+    # Get the products from the cart
+    cartProducts = cart.getProducts
+    quantities = cart.getQuantities
+    total = cart.cartTotal()
+
+    #Shipping User
+    shippingUser = ShippingAddress.objects.get(user__id=request.user.id)
+    
+    #Shipping Form
+    shippingForm = ShippingForm(request.POST or None, instance=shippingUser)
+
+    return render(request, "payment/billingInfo.html", {"cartProducts":cartProducts, "quantities":quantities, "total":total, "shippingForm":shippingForm })
+
 def checkout(request):
     # Get the cart
     cart = Cart(request)
