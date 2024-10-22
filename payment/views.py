@@ -1,6 +1,6 @@
 from django.shortcuts import redirect, render
 from cart.cart import Cart
-from payment.forms import ShippingForm
+from payment.forms import PaymentForm, ShippingForm
 from payment.models import ShippingAddress
 from django.contrib import messages
 
@@ -15,15 +15,20 @@ def billingInfo(request):
 
       # Check to if the user is logged in
       if request.user.is_authenticated:
-          return render(request, "payment/billingInfo.html", {"cartProducts":cartProducts, "quantities":quantities, "total":total, "shippingInfo":request.POST })
+          # Get the billing form
+          billingForm = PaymentForm()
+          return render(request, "payment/billingInfo.html", {"cartProducts":cartProducts, "quantities":quantities, "total":total, "shippingInfo":request.POST, "billingForm":billingForm })
       else:
-          pass
+          # Not logged in
+          # Get the billing form
+          billingForm = PaymentForm()
+          return render(request, "payment/billingInfo.html", {"cartProducts":cartProducts, "quantities":quantities, "total":total, "shippingInfo":request.POST, "billingForm":billingForm })
+
           
 
       
       
 
-      return render(request, "payment/billingInfo.html", {"cartProducts":cartProducts, "quantities":quantities, "total":total, "shippingInfo":request.POST })
     else:
         messages.success(request, "Access Denied")
         return redirect('home')

@@ -11,7 +11,7 @@ class ShippingAddress(models.Model):
     shippingFullName = models.CharField(max_length=255)
     shippingEmail = models.CharField(max_length=255)
     shippingAddress1 = models.CharField(max_length=255)
-    shippingAddress2 = models.CharField(max_length=255)
+    shippingAddress2 = models.CharField(max_length=255, null=True, blank=True)
     shippingCity = models.CharField(max_length=255)
     shippingCounty = models.CharField(max_length=255, null=True, blank=True)
     shippingPostcode = models.CharField(max_length=255, null=True, blank=True)
