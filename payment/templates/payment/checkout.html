@@ -9,6 +9,34 @@
   </div>
 </header>
 <br />
-<div class="container">checkout</div>
+<div class="container">
+  <div class="row">
+    <div class="col-md-8 offset-md-2">
+      <div class="card">
+        <div class="card-header">Order Summary</div>
+        <div class="card-body">
+          {% for product in cartProducts %} {{ product.name }}: 
+          {% if product.isSale %}
+          <span class="text-muted text-decoration-line-through"
+            >£{{product.price}}</span
+          >
+          ${{ product.salePrice }} {% else %} ${{ product.price }} {% endif %}
+
+          <br />
+          <small
+            >Quantity: {% for key, value in quantities.items %} 
+            {% if key == product.id|slugify %} {{ value }} {% endif %} {% endfor %}</small
+          >
+          <br /><br />
+
+          {% endfor %} Total: ${{ total }}
+          <br />
+          <a href="{% url 'cartSummary' %}" class="btn btn-sm btn-outline-secondary"></a>
+          <br />
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
 {% endblock %}
