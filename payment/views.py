@@ -4,6 +4,7 @@ from payment.forms import PaymentForm, ShippingForm
 from payment.models import ShippingAddress, Order, OrderItem
 from django.contrib import messages
 from django.contrib.auth.models import User
+from store.models import Product
 
 def processOrder(request):
     if request.POST:
@@ -39,6 +40,28 @@ def processOrder(request):
             createOrder = Order(user=user, fullName=fullName, email=email, shippingAddress=shippingAddress, amountPaid=amountPaid)
             createOrder.save()
 
+            # Add order items
+            # Get the Order ID
+            orderId = createOrder.pk
+
+            # Get Product Information
+            for product in cartProducts:
+                # Get product ID
+                productId = product.id
+                # Get product price
+                if product.isSale:
+                    price = product.salePrice
+                else:
+                    price = product.price
+
+                # Get quantity
+                for key, value in quantities().items:
+                    if int(key) == product.id:
+                        # Create order item
+                        createOrderItem = OrderItem(order=orderId, product=productId, user=user, quantity=value, price=price)
+                        createOrderItem.save()
+                        
+
             messages.success(request, "Order Placed")
             return redirect('home')
         else:
@@ -46,6 +69,27 @@ def processOrder(request):
             #Create order
             createOrder = Order(fullName=fullName, email=email, shippingAddress=shippingAddress, amountPaid=amountPaid)
             createOrder.save()
+
+            # Add order items
+            # Get the Order ID
+            orderId = createOrder.pk
+
+            # Get Product Information
+            for product in cartProducts:
+                # Get product ID
+                productId = product.id
+                # Get product price
+                if product.isSale:
+                    price = product.salePrice
+                else:
+                    price = product.price
+
+                # Get quantity
+                for key, value in quantities().items:
+                    if int(key) == product.id:
+                        # Create order item
+                        createOrderItem = OrderItem(order=orderId, product=productId, quantity=value, price=price)
+                        createOrderItem.save()
 
             messages.success(request, "Order Placed")
             return redirect('home')
