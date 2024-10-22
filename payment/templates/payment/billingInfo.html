@@ -43,18 +43,35 @@
       <div class="card">
         <div class="card-header">Shipping Info</div>
         <div class="card-body">
-          <form method="POST" action="{% url 'billingInfo' %}">
-            {% csrf_token %}
-            {{ shippingForm.as_p }}
+          
+            Name: {{ shippingInfo.shippingFullName }} <br/>
+            Email: {{ shippingInfo.shippingEmail }} <br/>
+            Address 1: {{ shippingInfo.shippingAddress1 }} <br/>
+            Address 2: {{ shippingInfo.shippingAddress2 }} <br/>
+            City: {{ shippingInfo.shippingCity }} <br/>
+            County: {{ shippingInfo.shippingCounty }} <br/>
+            Postcode: {{ shippingInfo.shippingPostcode }} <br/>
+            Country: {{ shippingInfo.shippingCountry }} <br/>
+            <br/>
+            <a href="{% url 'checkout' %}" class="btn btn-outline-secondary">Update Shipping</a>
           
         </div>
       </div>
       <br />
+      <br />
+      <div class="card">
+        <div class="card-header">Billing Info</div>
+        <div class="card-body">
+          
+            
+            
+          
+        </div>
+      </div>
 
-      <a type="submit" class="btn btn-secondary">
+      <button type="submit" class="btn btn-secondary">
         Pay Now
-      </a>
-    </form>
+      </button>
       <br />
       <br />
     </div>

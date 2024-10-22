@@ -1,23 +1,33 @@
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 from cart.cart import Cart
 from payment.forms import ShippingForm
 from payment.models import ShippingAddress
+from django.contrib import messages
 
 def billingInfo(request):
-     # Get the cart
-    cart = Cart(request)
-    # Get the products from the cart
-    cartProducts = cart.getProducts
-    quantities = cart.getQuantities
-    total = cart.cartTotal()
+    if request.POST:
+      # Get the cart
+      cart = Cart(request)
+      # Get the products from the cart
+      cartProducts = cart.getProducts
+      quantities = cart.getQuantities
+      total = cart.cartTotal()
 
-    #Shipping User
-    shippingUser = ShippingAddress.objects.get(user__id=request.user.id)
-    
-    #Shipping Form
-    shippingForm = ShippingForm(request.POST or None, instance=shippingUser)
+      # Check to if the user is logged in
+      if request.user.is_authenticated:
+          return render(request, "payment/billingInfo.html", {"cartProducts":cartProducts, "quantities":quantities, "total":total, "shippingInfo":request.POST })
+      else:
+          pass
+          
 
-    return render(request, "payment/billingInfo.html", {"cartProducts":cartProducts, "quantities":quantities, "total":total, "shippingForm":shippingForm })
+      
+      
+
+      return render(request, "payment/billingInfo.html", {"cartProducts":cartProducts, "quantities":quantities, "total":total, "shippingInfo":request.POST })
+    else:
+        messages.success(request, "Access Denied")
+        return redirect('home')
+
 
 def checkout(request):
     # Get the cart
