@@ -16,6 +16,7 @@ class OrderItemInline(admin.StackedInline):
 
 class OrderAdmin(admin.ModelAdmin):
     model = Order
+    readonly_fields = ["dateOrdered"]
     inline = [OrderItemInline]
 
 # Unregister order model
