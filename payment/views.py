@@ -60,6 +60,12 @@ def processOrder(request):
                         # Create order item
                         createOrderItem = OrderItem(order=orderId, product=productId, user=user, quantity=value, price=price)
                         createOrderItem.save()
+
+            # Delete our cart
+            for key in list(request.session.keys()):
+                if key == "sessionKey":
+                    # Delete the key
+                    del request.session[key]
                         
 
             messages.success(request, "Order Placed")
@@ -90,6 +96,12 @@ def processOrder(request):
                         # Create order item
                         createOrderItem = OrderItem(order=orderId, product=productId, quantity=value, price=price)
                         createOrderItem.save()
+
+            # Delete our cart
+            for key in list(request.session.keys()):
+                if key == "sessionKey":
+                    # Delete the key
+                    del request.session[key]
 
             messages.success(request, "Order Placed")
             return redirect('home')
