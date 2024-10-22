@@ -31,10 +31,28 @@
 
           {% endfor %} Total: ${{ total }}
           <br />
-          <a href="{% url 'cartSummary' %}" class="btn btn-sm btn-outline-secondary"></a>
+          <br />
+          <a href="{% url 'cartSummary' %}" class="btn btn-sm btn-outline-secondary">Update Products</a>
           <br />
         </div>
       </div>
+      <br />
+      <div class="card">
+        <div class="card-header">
+          Shipping Info
+        </div>
+        <div class="card-body">
+          {{ shippingForm.as_p }}
+      
+        </div>
+      </div>
+      <br/>
+      
+      <button type="submit" class="btn btn-secondary">
+              Continue To Billing
+      </button>
+      <br />
+      <br />
     </div>
   </div>
 </div>
