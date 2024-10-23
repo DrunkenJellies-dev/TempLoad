@@ -7,10 +7,27 @@ from django.contrib.auth.models import User
 from store.models import Product
 
 def shippedDashboard(request):
-    pass
+    # Check if user is superuser
+    if request.user.is_authenticated and request.user.is_superuser:
+        # Get orders
+        orders = Order.objects.filter(shipped=False)
+
+
+        return render(request, "payment/shippedDashboard.html", {"orders":orders})
+    else:
+        messages.success(request, "Access Denied")
+        return redirect('home')
 
 def notShippedDashboard(request):
-    pass
+    # Check if user is superuser
+    if request.user.is_authenticated and request.user.is_superuser:
+        # Get orders
+        orders = Order.objects.filter(shipped=False)
+
+        return render(request, "payment/notShippedDashboard.html", {"orders":orders})
+    else:
+        messages.success(request, "Access Denied")
+        return redirect('home')
 
 def processOrder(request):
     if request.POST:
