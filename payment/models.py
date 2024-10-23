@@ -1,7 +1,9 @@
 from django.db import models
 from django.contrib.auth.models import User
 from store.models import Product
-from django.db.models.signals import post_save
+from django.db.models.signals import post_save, pre_save
+from django.dispatch import receiver
+import datetime
 
 # Shipping Address Model
 class ShippingAddress(models.Model):
@@ -17,7 +19,6 @@ class ShippingAddress(models.Model):
     shippingPostcode = models.CharField(max_length=255, null=True, blank=True)
     shippingCountry = models.CharField(max_length=255)
     
-
     #Don't pluralize address
     class Meta:
         verbose_name_plural = "ShippingAddress"
@@ -45,10 +46,19 @@ class Order(models.Model):
     amountPaid= models.DecimalField(max_digits=10, decimal_places=2)
     dateOrdered = models.DateTimeField(auto_now_add=True)
     shipped = models.BooleanField(default=False)
+    dateShipped = models.DateTimeField(blank=True, null=True)
 
     def __str__(self):
         return f'Order - {str(self.id)}'
     
+# Auto add shipped date
+@receiver(pre_save, sender=Order)
+def setShippedDateOnUpdate(sender, instance, **kwargs):
+    if instance.pk:
+        now = datetime.datetime.now()
+        obj = sender._default_manager.get(pk=instance.pk)
+        if instance.shipped and not obj.shipped:
+            instance.dateShipped = now
   
 # Order Items Model
 class OrderItem(models.Model):
