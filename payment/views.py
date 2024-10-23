@@ -6,6 +6,12 @@ from django.contrib import messages
 from django.contrib.auth.models import User
 from store.models import Product
 
+def shippedDashboard(request):
+    pass
+
+def notShippedDashboard(request):
+    pass
+
 def processOrder(request):
     if request.POST:
         # Get the cart
