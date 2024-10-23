@@ -6,6 +6,19 @@ from django.contrib import messages
 from django.contrib.auth.models import User
 from store.models import Product
 
+def orders(request, pk):
+    if request.user.is_authenticated and request.user.is_superuser:
+        # Get the order
+        orders = Order.objects.get(id=pk)
+        # Get the order Items
+        items = OrderItem.objects.filter(order.pk)
+
+        return render(request, "payment/orders.html", {"orders":orders, "items":items})
+    else:
+        messages.success(request, "Access Denied")
+        return redirect('home')
+
+
 def shippedDashboard(request):
     # Check if user is superuser
     if request.user.is_authenticated and request.user.is_superuser:

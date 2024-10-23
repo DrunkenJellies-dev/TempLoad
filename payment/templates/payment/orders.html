@@ -1,0 +1,35 @@
+{% extends 'base.html' %} {% block content %}
+
+<div class="container">
+  <div class="row">
+    <center>
+      <div class="col-8">
+        <div class="card">
+          <div class="card-header">Order - {{order.id}} £{{order.amountPaid}}</div>
+          <div class="card-body">
+            Email: {{ order.email }} <br/>
+            
+            {% if order.dateShipped %}
+            Date Shipped: {{ order.dateShipped }} <br/>
+            {% else %}
+            Date Ordered: {{ order.dateOrdered }} <br/>
+            {% endif %}
+
+            {{ order.fullName }} <br/>
+            <pre><{{ order.shippingAddrress }}></pre> <br/>
+            {% for item in items %}
+            
+            {{item.product}} - {{ item.quantity }} - £{{ item.price }}<br/>
+
+            {% endfor %}
+                
+            
+          </div>
+        </div>
+        <a href="{% url 'home' %}" class="btn btn-primary">Back to home</a>
+
+      </div>
+    </center>
+  </div>
+</div>
+{% endblock %}
