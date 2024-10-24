@@ -5,6 +5,7 @@ from payment.models import ShippingAddress, Order, OrderItem
 from django.contrib import messages
 from django.contrib.auth.models import User
 from store.models import Product
+import datetime
 
 def orders(request, pk):
     if request.user.is_authenticated and request.user.is_superuser:
@@ -12,6 +13,28 @@ def orders(request, pk):
         orders = Order.objects.get(id=pk)
         # Get the order Items
         items = OrderItem.objects.filter(order.pk)
+
+        if request.POST:
+            status = request.POST['shippingStatus']
+            # Check if true of false
+            if status == "true":
+                # Get the Order
+                order = Order.objects.filter(id=pk)
+                # Get the current date time
+                now = datetime.datetime.now()
+                # Update the status
+                order.update(shipped=True, dateShipped=now)
+            else:
+                # Get the Order
+                order = Order.objects.filter(id=pk)
+                # Get the current date time
+                now = datetime.datetime.now()
+                # Update the status
+                order.update(shipped=False, dateShipped=now)
+            messages.success(request, "Shipping Status Updated.")
+            return redirect('home')
+                
+
 
         return render(request, "payment/orders.html", {"orders":orders, "items":items})
     else:
