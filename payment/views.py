@@ -48,6 +48,24 @@ def shippedDashboard(request):
         # Get orders
         orders = Order.objects.filter(shipped=False)
 
+        if request.POST:
+            # Get the Status
+            status = request.POST['shippingStatus']
+
+            # Get the num
+            num = request.POST['num']
+
+            # Get the Order
+            order = Order.objects.filter(id=num)
+
+            # Get the current date time
+            now = datetime.datetime.now()
+
+            # Update the status
+            order.update(shipped=True, dateShipped=None)
+            
+            messages.success(request, "Shipping Status Updated.")
+            return redirect('home')
 
         return render(request, "payment/shippedDashboard.html", {"orders":orders})
     else:
@@ -59,6 +77,25 @@ def notShippedDashboard(request):
     if request.user.is_authenticated and request.user.is_superuser:
         # Get orders
         orders = Order.objects.filter(shipped=False)
+
+        if request.POST:
+            # Get the Status
+            status = request.POST['shippingStatus']
+
+            # Get the num
+            num = request.POST['num']
+
+            # Get the Order
+            order = Order.objects.filter(id=num)
+
+            # Get the current date time
+            now = datetime.datetime.now()
+            
+            # Update the status
+            order.update(shipped=False, dateShipped=now)
+            
+            messages.success(request, "Shipping Status Updated.")
+            return redirect('home')
 
         return render(request, "payment/notShippedDashboard.html", {"orders":orders})
     else:
