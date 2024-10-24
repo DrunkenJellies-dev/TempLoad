@@ -4,7 +4,7 @@ from payment.forms import PaymentForm, ShippingForm
 from payment.models import ShippingAddress, Order, OrderItem
 from django.contrib import messages
 from django.contrib.auth.models import User
-from store.models import Product
+from store.models import Product, Profile
 import datetime
 
 def orders(request, pk):
@@ -162,6 +162,11 @@ def processOrder(request):
                 if key == "sessionKey":
                     # Delete the key
                     del request.session[key]
+
+            # Delete Cart from database (oldCartField)
+            currentUser = Profile.objects.filter(user__id=request.user.id)
+            # Delete shipping cart in database 
+            currentUser.update(oldCart="")
                         
 
             messages.success(request, "Order Placed")
