@@ -7,6 +7,12 @@ from django.contrib.auth.models import User
 from store.models import Product, Profile
 import datetime
 
+# Import PayPal libraries
+from django.urls import reverse
+from paypal.standard.forms import PayPalPaymentsForm
+from django.conf import settings
+import uuid
+
 def orders(request, pk):
     if request.user.is_authenticated and request.user.is_superuser:
         # Get the order

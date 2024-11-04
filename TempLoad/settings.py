@@ -32,6 +32,7 @@ INSTALLED_APPS = [
 
     # Other
     'storages',
+    'paypal.standard.ipn',
 ]
 
 MIDDLEWARE = [
@@ -155,3 +156,8 @@ if 'USE_AWS' in os.environ:
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# PayPal Settings
+PAYPAL_TEST = 'DEVELOPMENT' in os.environ
+
+PAYPAL_RECEIVER_EMAIL='ballumnew+tempload@gmail.com' # Business Paypal Account
