@@ -160,4 +160,4 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # PayPal Settings
 PAYPAL_TEST = 'DEVELOPMENT' in os.environ
 
-PAYPAL_RECEIVER_EMAIL='ballumnew+tempload@gmail.com' # Business Paypal Account
+PAYPAL_RECEIVER_EMAIL='temploadbusiness@gmail.com' # Business Paypal Account
