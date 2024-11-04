@@ -231,16 +231,35 @@ def billingInfo(request):
       myShipping = request.POST
       request.session['myShipping'] = myShipping
 
+      # Get Host
+      host = request.get_host()
+
+      # Create PayPal Form Directory
+      paypalDict = {
+          'business': settings.PAYPAL_RECEIVER_EMAIL,
+          'amount': total,
+          'item_name':'TempLoad Order',
+          'no_shipping': '2',
+          'invoice': str(uuid.uuid4()),
+          'currency_code': 'GBP',
+          'notify_url': 'https://{}{}'.format(host, reverse("paypal-ipn")),
+          'return_url': 'https://{}{}'.format(host, reverse("paymentSuccess")),
+          'cancel_return': 'https://{}{}'.format(host, reverse("paymentFailed")),
+      }
+
+      # Create PayPal Form
+      paypalForm = PayPalPaymentsForm(initial=paypalDict)
+
       # Check to if the user is logged in
       if request.user.is_authenticated:
           # Get the billing form
           billingForm = PaymentForm()
-          return render(request, "payment/billingInfo.html", {"cartProducts":cartProducts, "quantities":quantities, "total":total, "shippingInfo":request.POST, "billingForm":billingForm })
+          return render(request, "payment/billingInfo.html", {"paypalForm": paypalForm, "cartProducts":cartProducts, "quantities":quantities, "total":total, "shippingInfo":request.POST, "billingForm":billingForm })
       else:
           # Not logged in
           # Get the billing form
           billingForm = PaymentForm()
-          return render(request, "payment/billingInfo.html", {"cartProducts":cartProducts, "quantities":quantities, "total":total, "shippingInfo":request.POST, "billingForm":billingForm })
+          return render(request, "payment/billingInfo.html", {"paypalForm": paypalForm, "cartProducts":cartProducts, "quantities":quantities, "total":total, "shippingInfo":request.POST, "billingForm":billingForm })
 
     else:
         messages.success(request, "Access Denied")
@@ -270,3 +289,6 @@ def checkout(request):
 
 def paymentSuccess(request):
     return render(request, "payment/paymentSuccess.html")
+
+def paymentFailed(request):
+    return render(request, "payment/paymentFailed.html")
