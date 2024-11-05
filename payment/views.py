@@ -361,6 +361,19 @@ def checkout(request):
           return render(request, "payment/checkout.html", {"cartProducts":cartProducts, "quantities":quantities, "total":total, "shippingForm":shippingForm })
 
 def paymentSuccess(request):
+    # Delete the browser cart
+    # Get the cart
+    cart = Cart(request)
+    # Get the products from the cart
+    cartProducts = cart.getProducts
+    quantities = cart.getQuantities
+    total = cart.cartTotal()
+
+    # Delete our cart
+    for key in list(request.session.keys()):
+        if key == "sessionKey":
+            # Delete the key
+            del request.session[key]
     return render(request, "payment/paymentSuccess.html")
 
 def paymentFailed(request):
