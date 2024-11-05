@@ -12,6 +12,10 @@ from cart.cart import Cart
 from payment.forms import ShippingForm
 from payment.models import ShippingAddress
 
+def allProducts(request):
+    products = Product.objects.all()
+    return render(request, 'allProducts.html', {'products':products})
+
 def search(request):
     # Determine if they have filled out the form
     if request.method == "POST":

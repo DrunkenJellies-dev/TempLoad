@@ -14,4 +14,5 @@ urlpatterns = [
     path('category/<str:foo>',views.category, name='category'),
     path('categorySummary/',views.categorySummary, name='categorySummary'),
     path('search/',views.search, name='search'),
+    path('allProducts/',views.allProducts, name='allProducts'),
 ]
