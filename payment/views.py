@@ -231,8 +231,20 @@ def billingInfo(request):
       myShipping = request.POST
       request.session['myShipping'] = myShipping
 
+      # Get order Information
+      fullName = myShipping['shippingFullName']
+      email = myShipping['shippingEmail']
+
+      # Create Shipping Address from session info
+      shippingAddress = f"{myShipping['shippingAddress1']}\n{myShipping['shippingAddress2']}\n{myShipping['shippingCity']}\n{myShipping['shippingCounty']}\n{myShipping['shippingPostcode']}\n{myShipping['shippingCountry']}\n"
+
+      amountPaid = total
+
       # Get Host
       host = request.get_host()
+
+      # Create Invoice
+      invoice = str(uuid.uuid4())
 
       # Create PayPal Form Directory
       paypalDict = {
@@ -240,7 +252,7 @@ def billingInfo(request):
           'amount': total,
           'item_name':'TempLoad Order',
           'no_shipping': '2',
-          'invoice': str(uuid.uuid4()),
+          'invoice': invoice,
           'currency_code': 'GBP',
           'notify_url': 'https://{}{}'.format(host, reverse("paypal-ipn")),
           'return_url': 'https://{}{}'.format(host, reverse("paymentSuccess")),
@@ -254,13 +266,74 @@ def billingInfo(request):
       if request.user.is_authenticated:
           # Get the billing form
           billingForm = PaymentForm()
+
+          # User is logged in
+          user = request.user
+          
+          # Create order
+          createOrder = Order(user=user, fullName=fullName, email=email, shippingAddress=shippingAddress, amountPaid=amountPaid, invoice=invoice)
+          createOrder.save()
+
+          # Add order items
+          # Get the Order ID
+          orderId = createOrder.pk
+
+          # Get Product Information
+          for product in cartProducts:
+              # Get product ID
+              productId = product.id
+              # Get product price
+              if product.isSale:
+                  price = product.salePrice
+              else:
+                  price = product.price
+
+              # Get quantity
+              for key, value in quantities().items:
+                  if int(key) == product.id:
+                      # Create order item
+                      createOrderItem = OrderItem(order=orderId, product=productId, user=user, quantity=value, price=price)
+                      createOrderItem.save()
+
+          # Delete Cart from database (oldCartField)
+          currentUser = Profile.objects.filter(user__id=request.user.id)
+          # Delete shipping cart in database 
+          currentUser.update(oldCart="")
+                        
+
           return render(request, "payment/billingInfo.html", {"paypalForm": paypalForm, "cartProducts":cartProducts, "quantities":quantities, "total":total, "shippingInfo":request.POST, "billingForm":billingForm })
       else:
+          # User is not logged in 
+          #Create order
+          createOrder = Order(fullName=fullName, email=email, shippingAddress=shippingAddress, amountPaid=amountPaid, invoice=invoice)
+          createOrder.save()
+
+          # Add order items
+          # Get the Order ID
+          orderId = createOrder.pk
+
+          # Get Product Information
+          for product in cartProducts:
+              # Get product ID
+              productId = product.id
+              # Get product price
+              if product.isSale:
+                  price = product.salePrice
+              else:
+                  price = product.price
+
+              # Get quantity
+              for key, value in quantities().items:
+                  if int(key) == product.id:
+                      # Create order item
+                      createOrderItem = OrderItem(order=orderId, product=productId, quantity=value, price=price)
+                      createOrderItem.save()
+
           # Not logged in
           # Get the billing form
           billingForm = PaymentForm()
           return render(request, "payment/billingInfo.html", {"paypalForm": paypalForm, "cartProducts":cartProducts, "quantities":quantities, "total":total, "shippingInfo":request.POST, "billingForm":billingForm })
-
+      
     else:
         messages.success(request, "Access Denied")
         return redirect('home')
