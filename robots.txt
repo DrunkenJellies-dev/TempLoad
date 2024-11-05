@@ -1,3 +1,7 @@
+# Allow all robots to access everything except admin and accounts
 User-agent: *
 Disallow: /admin/
 Disallow: /accounts/
+
+# Allow all robots to access everything
+Sitemap: https://tempload-045b839f4f1c.herokuapp.com/sitemap.xml
