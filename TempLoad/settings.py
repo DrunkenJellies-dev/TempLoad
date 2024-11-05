@@ -6,11 +6,10 @@ from pathlib import Path
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
-#SECRET_KEY = os.environ.get("SECRET_KEY") 
-SECRET_KEY = '9yqkc(k=)_809cood_)x5mvyoosin6p-ey3p^s^n1%7p+@x7tp'
+SECRET_KEY = os.environ.get("SECRET_KEY") 
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['tempload-045b839f4f1c.herokuapp.com', 'localhost', '5387-2a02-c7c-7d79-2b00-2cc6-32c5-28c0-f4aa.ngrok-free.app', '127.0.0.1']
 #CSRF_TRUSTED_ORIGINS = ['https://5387-2a02-c7c-7d79-2b00-2cc6-32c5-28c0-f4aa.ngrok-free.app', 'https://tempload-045b839f4f1c.herokuapp.com']

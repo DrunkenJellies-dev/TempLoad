@@ -113,8 +113,8 @@ def processOrder(request):
         # Get the cart
         cart = Cart(request)
         # Get the products from the cart
-        cartProducts = cart.getProducts
-        quantities = cart.getQuantities
+        cartProducts = cart.getProducts()
+        quantities = cart.getQuantities()
         total = cart.cartTotal()
 
         # Get billing information
@@ -223,8 +223,8 @@ def billingInfo(request):
       # Get the cart
       cart = Cart(request)
       # Get the products from the cart
-      cartProducts = cart.getProducts
-      quantities = cart.getQuantities
+      cartProducts = cart.getProducts()
+      quantities = cart.getQuantities()
       total = cart.cartTotal()
 
       # Create a session with shipping information
@@ -289,7 +289,7 @@ def billingInfo(request):
                   price = product.price
 
               # Get quantity
-              for key, value in quantities().items:
+              for key, value in quantities.items():
                   if int(key) == product.id:
                       # Create order item
                       createOrderItem = OrderItem(order=orderId, product=productId, user=user, quantity=value, price=price)
@@ -323,7 +323,7 @@ def billingInfo(request):
                   price = product.price
 
               # Get quantity
-              for key, value in quantities().items:
+              for key, value in quantities.items():
                   if int(key) == product.id:
                       # Create order item
                       createOrderItem = OrderItem(order=orderId, product=productId, quantity=value, price=price)
