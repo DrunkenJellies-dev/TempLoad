@@ -137,7 +137,7 @@ class Cart():
         self.session.modified = True
 
         # Deal with logged in users
-        if self.request.user.is_authentication:
+        if self.request.user.is_authenticated:
             # Get the current user profile
             currentUser = Profile.objects.filter(user__id=self.request.user.id)
 

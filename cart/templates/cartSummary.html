@@ -4,21 +4,22 @@
   <div class="container px-4 px-lg-5 my-5">
     <div class="text-center text-white">
       <h1 class="display-4 fw-bolder">Shopping Cart</h1>
-      <p class="lead fw-normal text-white-50 mb-0">View your cart</p>
+      <p class="lead fw-normal text-white-50 mb-0">View your selected items</p>
     </div>
   </div>
 </header>
 <br />
-{% if cartProducts %} {% for product in cartProducts %}
+
 <div class="container">
-  <br />
-  <div class="card mb-3">
+  {% if cartProducts %} {% for product in cartProducts %}
+  <div class="card mb-3 shadow-sm">
     <div class="row g-0">
       <div class="col-md-4">
         <img
           src="{{ product.image.url }}"
           class="img-fluid rounded-start"
-          alt="Product Image"
+          alt="{{ product.name }}"
+          style="object-fit: cover; width: 100%; height: 100%"
         />
         {% if product.isSale %}
         <div
@@ -30,22 +31,26 @@
         {% endif %}
       </div>
       <div class="col-md-8">
-        <div class="card-body">
-          <h5 class="card-title">{{ product.name }}</h5>
-          <p class="card-text">{{ product.description }}</p>
-          <p class="card-text">
-            {% if product.isSale %}
-            <!-- Sale Price -->
-            <span class="text-muted text-decoration-line-through"
-              >£{{ product.price }}</span
-            >
-            {{ product.salePrice }} {% else %}
-            <!-- No Sale Price -->
-            £{{ product.price }} {% endif %}
-          </p>
-          <div class="row justify-content-center">
-            <div class="col-md-2">Quantity:</div>
-            <div class="col-md-2">
+        <div class="card-body d-flex flex-column justify-content-between h-100">
+          <div>
+            <h5 class="card-title">{{ product.name }}</h5>
+            <p class="card-text text-muted">{{ product.description }}</p>
+            <p class="card-text">
+              {% if product.isSale %}
+              <span class="text-muted text-decoration-line-through"
+                >£{{ product.price }}</span
+              >
+              <span class="text-danger font-weight-bold"
+                >£{{ product.salePrice }}</span
+              >
+              {% else %} £{{ product.price }} {% endif %}
+            </p>
+          </div>
+          <div class="d-flex align-items-center justify-content-between mt-3">
+            <div class="input-group" style="width: 150px">
+              <label class="form-label mr-2" for="select{{ product.id }}"
+                >Qty:</label
+              >
               <select
                 class="form-select form-select-sm"
                 id="select{{ product.id }}"
@@ -63,46 +68,51 @@
                 <option value="6">6</option>
                 <option value="7">7</option>
                 <option value="8">8</option>
+
               </select>
             </div>
+            <div>
+              <button
+                type="button"
+                data-index="{{ product.id }}"
+                class="btn btn-outline-secondary btn-sm updateCart"
+              >
+                Update
+              </button>
+              <button
+                type="button"
+                data-index="{{ product.id }}"
+                class="btn btn-outline-danger btn-sm deleteProduct"
+              >
+                Remove
+              </button>
+            </div>
           </div>
-          <button
-            type="button"
-            data-index="{{ product.id }}"
-            class="btn btn-secondary updateCart"
-          >
-            Update
-          </button>
-          <button
-            type="button"
-            data-index="{{ product.id }}"
-            class="btn btn-danger deleteProduct"
-          >
-            Remove
-          </button>
         </div>
       </div>
     </div>
   </div>
+  {% endfor %}
+
+  <div class="text-right mt-4">
+    <h4>Total: £{{ total }}</h4>
+    <a class="btn btn-success btn-lg" href="{% url 'checkout' %}"
+      >Proceed to Checkout</a
+    >
+  </div>
+
+  {% else %}
+  <div class="text-center py-5">
+    <h3>Your Cart is Empty</h3>
+    <p class="text-muted">
+      Looks like you haven't added any items to your cart yet.
+    </p>
+    <a href="{% url 'home' %}" class="btn btn-primary"> Continue Shopping </a>
+  </div>
+  {% endif %}
 </div>
-{% endfor %}
-<div class="container" align="right">
-  <h3>Total: £{{ total }}</h3>
-  <a class="btn btn-success" href="{% url 'checkout' %}">Checkout</a>
-</div>
-{% else %}
-<div class="container text-center" style="padding: 50px 0">
-  <h3 class="mb-4">Your Cart is Empty</h3>
-  <p class="text-muted mb-4">
-    Looks like you haven't added any items to your cart yet.
-  </p>
-  <a href="{% url 'home' %}" class="btn btn-secondary btn-md">
-    Continue Shopping
-  </a>
-</div>
-{% endif %}
+
 <script>
-  // Check if update product button pressed
   $(document).on("click", ".updateCart", function (e) {
     e.preventDefault();
     var productId = $(this).data("index");
@@ -110,22 +120,20 @@
       type: "POST",
       url: "{% url 'cartUpdate' %}",
       data: {
-        productId: $(this).data("index"),
+        productId: productId,
         productQty: $("#select" + productId + " option:selected").text(),
         csrfmiddlewaretoken: "{{ csrf_token }}",
         action: "post",
       },
-
       success: function (json) {
-        //console.log(json);
-        //document.getElementById("cartQuantity").textContent = json.qty;
         location.reload();
       },
-      error: function (xhr, errmsg, err) {},
+      error: function (xhr, errmsg, err) {
+        console.error("Error updating cart:", errmsg);
+      },
     });
   });
 
-  // Check if delete product button pressed
   $(document).on("click", ".deleteProduct", function (e) {
     e.preventDefault();
     var productId = $(this).data("index");
@@ -133,17 +141,16 @@
       type: "POST",
       url: "{% url 'cartDelete' %}",
       data: {
-        productId: $(this).data("index"),
+        productId: productId,
         csrfmiddlewaretoken: "{{ csrf_token }}",
         action: "post",
       },
-
       success: function (json) {
-        //console.log(json);
-        //document.getElementById("cartQuantity").textContent = json.qty;
         location.reload();
       },
-      error: function (xhr, errmsg, err) {},
+      error: function (xhr, errmsg, err) {
+        console.error("Error removing product:", errmsg);
+      },
     });
   });
 </script>
