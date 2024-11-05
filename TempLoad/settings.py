@@ -5,17 +5,14 @@ from pathlib import Path
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
-
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.environ.get("SECRET_KEY") 
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = 'DEVELOPMENT' in os.environ
 
-ALLOWED_HOSTS = ['tempload-045b839f4f1c.herokuapp.com', 'localhost']
+ALLOWED_HOSTS = ['tempload-045b839f4f1c.herokuapp.com', 'localhost', '5387-2a02-c7c-7d79-2b00-2cc6-32c5-28c0-f4aa.ngrok-free.app']
+CSRF_TRUSTED_ORIGINS = ['https://5387-2a02-c7c-7d79-2b00-2cc6-32c5-28c0-f4aa.ngrok-free.app', 'https://tempload-045b839f4f1c.herokuapp.com']
 
 # Application definition
 
@@ -68,7 +65,6 @@ WSGI_APPLICATION = 'TempLoad.wsgi.application'
 
 
 # Database
-# https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
 # DATABASES = {
 #     'default': {
@@ -91,7 +87,6 @@ else:
 
 
 # Password validation
-# https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -110,7 +105,6 @@ AUTH_PASSWORD_VALIDATORS = [
 
 
 # Internationalization
-# https://docs.djangoproject.com/en/5.1/topics/i18n/
 
 LANGUAGE_CODE = 'en-us'
 
@@ -122,8 +116,6 @@ USE_TZ = True
 
 
 # Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/5.1/howto/static-files/
-
 STATIC_URL = 'static/'
 
 if DEBUG:
@@ -153,11 +145,9 @@ if 'USE_AWS' in os.environ:
     MEDIA_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/{MEDIAFILES_LOCATION}/'
 
 # Default primary key field type
-# https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
-
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # PayPal Settings
-PAYPAL_TEST = 'DEVELOPMENT' in os.environ
+PAYPAL_TEST = True
 
 PAYPAL_RECEIVER_EMAIL='temploadbusiness@gmail.com' # Business Paypal Account

@@ -244,7 +244,7 @@ def billingInfo(request):
           'currency_code': 'GBP',
           'notify_url': 'https://{}{}'.format(host, reverse("paypal-ipn")),
           'return_url': 'https://{}{}'.format(host, reverse("paymentSuccess")),
-          'cancel_return': 'https://{}{}'.format(host, reverse("paymentFailed")),
+          'cancel_return': 'https://{}{}'.format(host, reverse("paymentFailed"))
       }
 
       # Create PayPal Form
