@@ -2,11 +2,11 @@
 
 **Developer:** [Your Name]
 
-![TempLoad](readme_imgs/SiteScreenshots/Lightmode.png)
+![TempLoad](readme_imgs/homePage.png)
 
 ## Live Website
 
-[Link to live website](https://yourtempoadwebsite.com)
+[Link to live website](https://tempload-045b839f4f1c.herokuapp.com/)
 
 ## Purpose of the Project
 
@@ -20,7 +20,6 @@ At TempLoad, we aim to provide a wide variety of high-quality templates for tool
 - [Key Project Goals](#key-project-goals)
 - [Target Audience](#target-audience)
 - [User Requirements and Expectations](#user-requirements-and-expectations)
-- [Epics and User Stories](#epics-and-user-stories)
 - [Features](#features)
 - [Design](#design)
 - [Database Schema](#database-schema)
@@ -28,7 +27,6 @@ At TempLoad, we aim to provide a wide variety of high-quality templates for tool
 - [Testing](#testing)
 - [User Testing](#user-testing)
 - [Responsiveness](#responsiveness)
-- [Bugs](#bugs)
 - [Deployment](#deployment)
 
 ## User Experience (UX)
@@ -59,39 +57,19 @@ At TempLoad, we aim to provide a wide variety of high-quality templates for tool
 
 #### Navigation Bar
 
-![Navigation Bar](/readme_imgs/Features/NavigationBar.png)
+![Navigation Bar](/readme_imgs/navbar.png)
 
-#### Template Card
+#### Mailchimp Newsletter
 
-![Template Card](/readme_imgs/Features/TemplateCard.png)
-
-#### Comment Form
-
-![Comment Form](/readme_imgs/Features/CommentForm.png)
-
-#### Comment History
-
-![Comment History](/readme_imgs/Features/CommentHistory.png)
-
-#### Contact Us Form
-
-![Contact Us Form](/readme_imgs/Features/ContactUsForm.png)
+![Contact Us Form](/readme_imgs/mailchimpNewsletter.png)
 
 #### Footer
 
-![Footer](/readme_imgs/Features/Footer.png)
+![Footer](/readme_imgs/footer.png)
 
-#### Ratings
+#### Notification
 
-![Ratings](/readme_imgs/Features/Ratings.png)
-
-#### Prev and Next Buttons
-
-![Prev and Next Buttons](/readme_imgs/Features/PrevNextButtons.png)
-
-#### Share Templates
-
-![Share Templates](/readme_imgs/Features/ShareTemplates.png)
+![Notification](/readme_imgs/notification.png)
 
 ## Design
 
@@ -99,26 +77,61 @@ At TempLoad, we aim to provide a wide variety of high-quality templates for tool
 
 Utilization of vibrant and inviting colors.
 
-![Dark Mode](/readme_imgs/SiteScreenshots/DarkModePage.png)
-![Light Mode](/readme_imgs/SiteScreenshots/Lightmode.png)
+![Light Mode](/readme_imgs/homePage.png)
 
 #### About Page
 
-![About Page](/readme_imgs/SiteScreenshots/AboutPage.png)
+![About Page](/readme_imgs/aboutPage.png)
 
-#### Template Page
+#### All Products Page
 
-![Template Page](/readme_imgs/SiteScreenshots/TemplatePage.png)
+![All Products Page](/readme_imgs/allProductsPage.png)
 
-#### Contact Us Page
+#### Search
 
-![Contact Us Page](/readme_imgs/SiteScreenshots/ContactUsForm.png)
+![Search](/readme_imgs/searchPage.png)
+
+#### Notion Page
+
+![Notion Page](/readme_imgs/notionPage.png)
+
+#### Excel Page
+
+![Excel Page](/readme_imgs/excelPage.png)
+
+#### Product Detail Page
+
+![Product Detail Page](/readme_imgs/productDetailPage.png)
+
+#### Login Page
+
+![Login Page](/readme_imgs/loginPage.png)
+
+#### Register Page
+
+![Register Page](/readme_imgs/registerPage.png)
+
+#### Update Account Page
+
+![Update Account Page](/readme_imgs/updateProfile.png)
+
+#### Shipped Page
+
+![Shipped Page](/readme_imgs/shippedPage.png)
+
+#### Not Shipped Page
+
+![Not Shipped Page](/readme_imgs/notShippedPage.png)
+
+#### Cart Summary Page
+
+![Cart Summary Page](/readme_imgs/cartSummaryPage.png)
 
 ## Database Schema
 
 #### Database Structure
 
-![Database Structure](/readme_imgs/Admin/DatabaseSchema.png)
+![Database Structure](/readme_imgs/adminPanel.png)
 
 ## Testing
 
@@ -130,8 +143,8 @@ All HTML pages were tested with the [W3C HTML Validator](https://validator.w3.or
 
 | page  | validator                                                                                          | result |
 | ----- | -------------------------------------------------------------------------------------------------- | ------ |
-| Home  | <details><summary>Home Page</summary><img src="./readme_imgs/W3cHTML/HomePageW3C.png"></details>   | PASS   |
-| About | <details><summary>About Page</summary><img src="./readme_imgs/W3cHTML/AboutPageW3C.png"></details> | PASS   |
+| Home  | <details><summary>Home Page</summary><img src="./readme_imgs/w3HtmlValidatorHome.png"></details>   | PASS   |
+| About | <details><summary>About Page</summary><img src="./readme_imgs/w3HtmlValidatorAbout.png"></details> | PASS   |
 
 ### CSS Validation
 
@@ -141,7 +154,7 @@ Custom CSS was validated using the [W3C CSS Validator](https://jigsaw.w3.org/css
 
 | page | validator                                                                                        | result |
 | ---- | ------------------------------------------------------------------------------------------------ | ------ |
-| Css  | <details><summary>style.css</summary><img src="./readme_imgs/W3cCss/CssValidator.png"></details> | PASS   |
+| Css  | <details><summary>style.css</summary><img src="./readme_imgs/w3cValidator.png"></details> | PASS   |
 
 ### JS Validation
 
@@ -151,7 +164,7 @@ JavaScript code was validated using [JSHint Validator](https://jshint.com/).
 
 | page            | validator                                                                                             | result |
 | --------------- | ----------------------------------------------------------------------------------------------------- | ------ |
-| script.js      | <details><summary>script.js</summary><img src="./readme_imgs/JsHint/scriptJsHint.png"></details>    | PASS   |
+| script.js      | <details><summary>script.js</summary><img src="./readme_imgs/jshint.png"></details>    | PASS   |
 
 ## User Testing
 
@@ -185,7 +198,7 @@ All pages on the website were tested for responsiveness across multiple devices.
 4. Set Buildpacks for Node.js and Python.
 5. Deploy Your App.
 
-The live link for this project can be found here - [TempLoad](https://yourtempoadwebsite.com)
+The live link for this project can be found here - [TempLoad](https://tempload-045b839f4f1c.herokuapp.com/)
 
 ## Credits
 
@@ -196,11 +209,11 @@ Inspired by various template repositories and tutorials, with custom modificatio
 ## Technology Used
 
 - **Languages and Frameworks:**
-  - HTML5, CSS, JavaScript, Django.
+  - HTML5, CSS, JavaScript, Django, JQuery, Python.
 - **Database:**
   - PostgreSQL.
 - **Tools and Services:**
-  - GitHub, Heroku.
+  - GitHub, Heroku, AWS.
 
 ### Technologies and tools:
 
