@@ -1,18 +1,81 @@
-{% extends 'base.html'%} {% block content %}
+{% extends 'base.html' %} 
+{% block content %}
 
-<!-- Header-->
+<!-- Hero Section -->
 <header class="bg-dark py-5">
   <div class="container px-4 px-lg-5 my-5">
     <div class="text-center text-white">
-      <h1 class="display-4 fw-bolder">TempLoad</h1>
-      <p class="lead fw-normal text-white-50 mb-0">Welcome to my Shop</p>
+      <h1 class="display-4 fw-bolder">Welcome to TempLoad</h1>
+      <p class="lead fw-normal text-white-50 mb-0">Boost your productivity with templates for Notion, Excel, Word, and more!</p>
     </div>
   </div>
 </header>
-<!-- Section-->
+
+<!-- Featured Products Section -->
 <section class="py-5">
   <div class="container px-4 px-lg-5 mt-5">
-    
+    <h2 class="text-center fw-bolder mb-5">Featured Templates</h2>
+    <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
+      
+      <!-- Display a selection of featured products -->
+      {% for product in products %}
+      <div class="col mb-5">
+        <div class="card h-100">
+          
+          <!-- Sale Badge -->
+          {% if product.isSale %}
+          <div class="badge bg-dark text-white position-absolute" style="top: 0.5rem; right: 0.5rem">
+            Sale
+          </div>
+          {% endif %}
+
+          <!-- Product Image -->
+          <img class="card-img-top" src="{{ product.image.url }}" alt="{{ product.name }} Image" />
+
+          <!-- Product Details -->
+          <div class="card-body p-4">
+            <div class="text-center">
+              <h5 class="fw-bolder">{{ product.name }}</h5>
+              
+              <!-- Product Price -->
+              {% if product.isSale %}
+              <span class="text-muted text-decoration-line-through">£{{ product.price }}</span>
+              £{{ product.salePrice }}
+              {% else %}
+              £{{ product.price }}
+              {% endif %}
+              
+              <p class="text-truncate" style="max-width: 200px">{{ product.description }}</p>
+            </div>
+          </div>
+
+          <!-- Product Actions -->
+          <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+            <div class="text-center">
+              <a class="btn btn-outline-dark mt-auto" href="{% url 'product' product.id %}">View Product <i class="fa-solid fa-file-import"></i></a>
+            </div>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+      
+    </div>
+  </div>
+</section>
+
+<!-- About Us Section -->
+<section class="py-5 bg-light">
+  <div class="container px-4 px-lg-5 text-center">
+    <h2 class="fw-bolder mb-4">Why Choose TempLoad?</h2>
+    <p class="lead text-muted">We offer a wide range of high-quality templates tailored to meet your needs. From project management to budgeting, we’ve got you covered. Simplify your tasks and make your workflow more efficient with our templates!</p>
+  </div>
+</section>
+
+<!-- Call to Action Section -->
+<section class="py-5 text-center">
+  <div class="container px-4 px-lg-5">
+    <h2 class="fw-bolder mb-4">Ready to Get Started?</h2>
+    <a href="{% url 'allProducts' %}" class="btn btn-lg btn-primary">Explore All Products</a>
   </div>
 </section>
 
