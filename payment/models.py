@@ -48,6 +48,10 @@ class Order(models.Model):
     shipped = models.BooleanField(default=False)
     dateShipped = models.DateTimeField(blank=True, null=True)
 
+    # PayPal Invoice and Paid True/False
+    invoice = models.CharField(max_length=250, blank=True, null=True)
+    shipped = models.BooleanField(default=False)
+
     def __str__(self):
         return f'Order - {str(self.id)}'
     
