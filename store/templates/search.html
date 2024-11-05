@@ -1,96 +1,109 @@
 {% extends 'base.html' %} {% block content %}
-<!-- Header-->
+
+<!-- Header -->
 <header class="bg-dark py-5">
   <div class="container px-4 px-lg-5 my-5">
     <div class="text-center text-white">
       <h1 class="display-4 fw-bolder">Search Products</h1>
       <p class="lead fw-normal text-white-50 mb-0">
-        Search for what you're looking for
+        Find the templates you need
       </p>
     </div>
   </div>
 </header>
 
+<!-- Search Form -->
 <div class="container">
-  <div class="row">
-    <center>
-      <div class="col-10">
-        <div class="card">
-          <div class="card-header">Search products</div>
-          <div class="card-body">
-            <form method="POST" action="{% url 'search' %}">
-              {% csrf_token %}
-              <div class="mb-3">
-                <input
-                  type="text"
-                  class="form-control"
-                  placeholder="Search for products"
-                  name="searched"
-                />
-              </div>
-              <button type="submit" class="btn btn-secondary">Search</button>
-            </form>
-          </div>
-        </div>
-        <div
-          class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center"
-        >
-          {% if searched %} {% for product in searched %}
-          <div class="col mb-5">
-            <div class="card h-100">
-              <!-- Sale Badge -->
-              {% if product.isSale%}
-              <div
-                class="badge bg-dark text-white position-absolute"
-                style="top: 0.5rem; right: 0.5rem"
-              >
-                Sale
-              </div>
-              {% endif %}
-              <!-- Product image-->
-              <img
-                class="card-img-top"
-                src="{{product.image.url}}"
-                alt="{{product.name}} Image"
+  <div class="row justify-content-center">
+    <div class="col-lg-8">
+      <div class="card shadow-sm mb-4">
+        <div class="card-body">
+          <form method="POST" action="{% url 'search' %}">
+            {% csrf_token %}
+            <div class="input-group mb-3">
+              <input
+                type="text"
+                class="form-control"
+                placeholder="Enter product name, type, or keyword"
+                name="searched"
+                aria-label="Search"
               />
-              <!-- Product details-->
-              <div class="card-body p-4">
-                <div class="text-center">
-                  <!-- Product name-->
-                  <h5 class="fw-bolder">{{product.name}}</h5>
-                  <!-- Product price-->
-
-                  {% if product.isSale%}
-                  <!-- Sale Price -->
-                  <span class="text-muted text-decoration-line-through"
-                    >£{{product.price}}</span
-                  >
-
-                  {{ product.salePrice}} {% else %}
-                  <!-- No Sale Price -->
-                  £{{product.price}} {% endif %}
-
-                  <p class="text-truncate" style="max-width: 200px">
-                    {{product.description}}
-                  </p>
-                </div>
-              </div>
-              <!-- Product actions-->
-              <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                <div class="text-center">
-                  <a
-                    class="btn btn-outline-dark mt-auto"
-                    href="{% url 'product' product.id%}"
-                    >View Product <i class="fa-solid fa-file-import"></i
-                  ></a>
-                </div>
-              </div>
+              <button class="btn btn-secondary" type="submit">Search</button>
             </div>
-          </div>
-          {% endfor %} {% endif %}
+          </form>
         </div>
       </div>
-    </center>
+    </div>
   </div>
 </div>
+
+<!-- Search Results -->
+<div class="container py-5">
+  <div
+    class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center"
+  >
+    {% if searched %} {% if searched|length > 0 %} {% for product in searched %}
+    <div class="col mb-5">
+      <div class="card h-100 shadow-sm">
+        <!-- Sale Badge -->
+        {% if product.isSale %}
+        <div
+          class="badge bg-dark text-white position-absolute"
+          style="top: 0.5rem; right: 0.5rem"
+        >
+          Sale
+        </div>
+        {% endif %}
+
+        <!-- Product Image -->
+        <img
+          class="card-img-top"
+          src="{{ product.image.url }}"
+          alt="{{ product.name }} Image"
+        />
+
+        <!-- Product Details -->
+        <div class="card-body p-4">
+          <div class="text-center">
+            <h5 class="fw-bolder">{{ product.name }}</h5>
+
+            <!-- Product Price -->
+            {% if product.isSale %}
+            <span class="text-muted text-decoration-line-through"
+              >£{{ product.price }}</span
+            >
+            £{{ product.salePrice }} {% else %} £{{ product.price }} {% endif %}
+
+            <p class="text-truncate mt-2" style="max-width: 200px">
+              {{ product.description }}
+            </p>
+          </div>
+        </div>
+
+        <!-- Product Actions -->
+        <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+          <div class="text-center">
+            <a
+              class="btn btn-outline-dark mt-auto"
+              href="{% url 'product' product.id %}"
+              >View Product <i class="fa-solid fa-file-import"></i
+            ></a>
+          </div>
+        </div>
+      </div>
+    </div>
+    {% endfor %} {% else %}
+    <div class="col-12 text-center">
+      <p class="lead text-muted">
+        No products found matching your search. Try different keywords.
+      </p>
+    </div>
+    {% endif %} {% else %}
+    <div class="col-12 text-center">
+      <p class="lead text-muted">Enter a keyword to start your search.</p>
+    </div>
+    {% endif %}
+  </div>
+</div>
+
 {% endblock %}
